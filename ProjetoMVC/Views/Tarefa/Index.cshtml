@@ -1,0 +1,51 @@
+@model IEnumerable<TodoAppMvc.Models.Tarefa>
+
+@{ // Definindo o título da página
+    ViewData["Title"] = "Lista de Tarefas";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Criar" class="btn btn-primary">Criar Nova Tarefa</a>
+</p>
+
+@if (!Model.Any())
+{
+    <p>Nenhuma tarefa cadastrada ainda.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descricao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Concluida)
+                </th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @(item.Concluida ? "Sim" : "Não")
+                    </td>
+                    <td class="actions">
+                        <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
+                        <a asp-action="AlternarStatus" asp-route-id="@item.Id">@(item.Concluida ? "Marcar Pendente" : "Marcar Concluída")</a> |
+                        <a asp-action="Excluir" asp-route-id="@item.Id" class="delete">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
